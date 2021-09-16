@@ -1,0 +1,28 @@
+#This attack tests if inproper read calls can be preformed. A readat call should fail if 
+#it attempts to read a negative number of bytes or at a negaitve offset. It may also fail
+#if it attempts to read more bytes than there already are.
+
+#clean up possibly existing files
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+if "testfile.txt" in listfiles():
+  removefile("testfile.txt")
+
+#create a new AB file
+myfile = ABopenfile("testfile.txt", True)
+myfile.writeat("StestE", 0)
+
+try:
+  myfile.readat(-1,0) #attempt to read a negative number of bytes. This should fail.
+except:
+  log("Cannot read a negative number of bytes.\n") #Case was not handled.
+
+try:
+  myfile.readat(None,-1) #attempt to read at a negative offset. This should fail.
+except:
+  log("Cannot read at a negative offset.\n") #Case was not handled.
+
+
+myfile.close()

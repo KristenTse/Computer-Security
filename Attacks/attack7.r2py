@@ -1,0 +1,20 @@
+#This attack checks if the A and B files were properly removed after close() was called.
+
+#clean up possibly existing files
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+if "testfile.txt" in listfiles():
+  removefile("testfile.txt")
+
+#create a new AB file, write valid text, then close the file
+myfile = ABopenfile("testfile.txt", True)
+myfile.writeat("StestE",0) 
+myfile.close()
+
+try:
+  assert("testfile.txt.a" not in listfiles()) #A file should not be present
+  assert("testfile.txt.b" not in listfiles()) #B file should not be present
+except:
+  log("the A/B files were not removed like they should've been") #test failed. A/B files were present, which means they were not removed as required

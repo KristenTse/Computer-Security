@@ -1,0 +1,29 @@
+#This attack tests the validity of a file name. File names should not contain capital letters, 
+#empty strings, begin with a period, or be over 120 characters long.
+
+
+#attempts to create an AB file with an invalid file name
+try:
+  myfile = ABopenfile("TESTFILE.txt", True) #invalid file name because captial letters
+  myfile.close() #attempts to close an invalid file, which should not have been created in the first place
+except:
+  log("Invalid file names were not properly handled. File names cannot have capital letters.\n")
+
+try:
+  myfile = ABopenfile("", True) #invalid file name because it is an empty string
+  myfile.close() #attempts to close an invalid file, which should not have been created in the first place
+except:
+  log("Invalid file names were not properly handled. File names cannot be empty.\n")
+
+try:
+  myfile = ABopenfile(".", True) #invalid file name because it starts with a period
+  myfile.close() #attempts to close an invalid file, which should not have been created in the first place
+except:
+  log("Invalid file names were not properly handled. File names cannot start with a period.\n")
+
+try:
+  #invalid file name because it is over 120 characters long
+  myfile4 = ABopenfile("testfileaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt", True)  
+  myfile.close() #attempts to close an invalid file, which should not have been created in the first place
+except:
+  log("Invalid file names were not properly handled. File names were not properly handled. File names cannot be over 120 characters long.\n")

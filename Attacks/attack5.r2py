@@ -1,0 +1,27 @@
+#This attack tests if inproper write calls can be performed. Writeat should fail if it attempts to
+#write at a negative offset or if it tries to write past the end of the file.
+
+#clean up possibly existing files
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+if "testfile.txt" in listfiles():
+  removefile("testfile.txt")
+
+#create a new AB file
+myfile = ABopenfile("testfile.txt", True)
+
+
+try:
+  myfile.writeat("StestE",-1) #attempt to write at a negative offset
+except:
+  log("Cannot write at a negative offset.\n") #case not handled
+
+try:
+  myfile.writeat("StestE",50) #attempt to write past the end of the file.
+except:
+  log("Cannot write past the end of the file.\n") #case not handled
+
+
+myfile.close()

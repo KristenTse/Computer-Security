@@ -1,0 +1,23 @@
+#This attack tests the validity of an empty file's contents
+#When an empty file is initalized, its A file is initialized to contain 'SE'
+
+#clean up possibly existing files
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+if "testfile.txt" in listfiles():
+  removefile("testfile.txt")
+
+
+#create a new, empty AB file
+myfile=ABopenfile("testfile.txt",True)
+
+
+try:
+  assert('SE' == myfile.readat(None,0)) #this attempts to read SE from the A file, which should exist
+except:
+  myfile.close()
+  log("Empty file not handled correctly. The A file was not valid")
+
+myfile.close()

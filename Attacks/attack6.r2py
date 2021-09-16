@@ -1,0 +1,28 @@
+#This attack tests that invalid writes to the file can be made, and that the file can still be valid
+#when the user adds the 'S' and 'E' characters later.
+
+#clean up possibly existing files
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+if "testfile.txt" in listfiles():
+  removefile("testfile.txt")
+
+#create a new AB file
+myfile = ABopenfile("testfile.txt", True)
+myfile.writeat("S",0) #initial write is not valid
+myfile.writeat("testE",1) #file should now be valid
+myfile.close() #close to ensure that the original file gets rewritten
+
+
+myfile = ABopenfile("testfile.txt", False) #reopen the file
+
+try:
+  assert("StestE" == myfile.readat(None,0)) #original file should now contain "StestE"
+except:
+  myfile.close()
+  log("Writes to original file were not properly handled. User unsuccessfully attempted to add S and E after an invalid write.")
+
+
+myfile.close()

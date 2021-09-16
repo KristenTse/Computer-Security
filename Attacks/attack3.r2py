@@ -1,0 +1,21 @@
+#This attack tests if existing files can be opened. When a file is opened with second parameter being False,
+#the existing file should be opened.
+
+#clean up possibly existing files
+if "testfile.txt.a" in listfiles():
+  removefile("testfile.txt.a")
+if "testfile.txt.b" in listfiles():
+  removefile("testfile.txt.b")
+if "testfile.txt" in listfiles():
+  removefile("testfile.txt")
+
+#create a new AB file
+myfile = ABopenfile("testfile.txt", True)
+myfile.close()
+
+try:
+  myfileagain = ABopenfile("testfile.txt", False) #should open the existing file if this case was handled
+  myfileagain.close()
+except:
+  log("An existing file could not be opened.") #test failed
+
